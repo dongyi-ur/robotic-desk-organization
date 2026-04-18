@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<launch>
+
+    <!-- start ArUco -->
+    <node name="serial_example_node1" pkg="serial_msgs" type="serial_example_node1">
+    </node>
+
+    <!-- start ArUco -->
+    <node name="listen1" pkg="serial_msgs" type="listen1">
+    </node>
+
+</launch>

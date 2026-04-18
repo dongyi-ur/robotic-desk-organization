@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- start the realsense -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+        <arg name="align_depth" value="true" /> 
+    </include>
+    
+    <!-- YOLO object detection -->
+    <include file="$(find darknet_ros)/launch/yolo_v3_tiny_spb.launch" />
+
+    <!-- ur_vision/vision_manager -->
+    <!-- <node name="simple_grasping_vision_detection" pkg="ur_vision" type="vision_manager" /> -->
+    <node name="vision_manager" pkg="ur_vision_paper" type="vision_manager" />
+    
+    <!-- tf camera to robot -->
+    <include file="$(find easy_handeye)/launch/publish.launch" />
+
+    <![CDATA[    ]]>
+
+</launch>
