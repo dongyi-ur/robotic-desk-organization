@@ -10,7 +10,7 @@
 - **推‑抓取策略**：利用桌沿或书本边缘抓取尺子等平面刚体；
 - **撬‑抓取策略**：适用于书本等可变形物体。
 
-结合视觉感知模块（YOLO + SAM2.1 + 点云处理）与任务规划器，系统能够在真实场景中完成从识别、抓取到规整放置的完整桌面整理流程。下图展示了整理任务的初始与目标状态示例（对应论文 Fig. 1）。
+基于视觉感知模块（YOLO + SAM2.1 + 点云处理），并结合以上操作原语与辅助原语，定义了任务规划器。系统能够在真实场景中完成从识别、抓取到规整放置的完整桌面整理流程。下图展示了整理任务的初始与目标状态示例（对应论文 Fig. 1）。具体的方法介绍可以参考论文（链接见末尾）。
 
 > ![Fig. 1: 桌面整理任务的初始状态与整理后状态](docs/fig1_initial_final.png)
 > *图：桌面整理任务的初始状态（左）与整理后状态（右）*  
@@ -18,13 +18,16 @@
 
 ## 2. 项目内容
 
-此部分主要介绍不同功能包及其实现的功能：
+此部分主要介绍不同功能包及其实现的功能，主要包括机器人、夹爪、相机的ROS通讯控制功能包，和手眼标定功能包，以及针对本文任务专门开发的视觉功能包和操作规划功能包。
 
 **UR robot (UR5e)**
 - **Universal_Robots_ROS_Driver:** UR robot driver meta-package.
 - **fmauch_universal_robot:** UR robot description meta-package.
 
 Tutorial: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
+
+**Gripper (Rochu)**
+- **serial_msgs:** 夹爪通讯功能包.
 
 **Camera (Realsense D415)**
 - **realsense-ros:** a package for using Intel RealSense cameras with ROS.
@@ -38,9 +41,59 @@ Tutorial: http://neutron.manoonpong.com/perception-vision-realsense-set-up-tutor
 - **vision_visp:** a package which provides visual servoing platform algorithms as ROS components. 
 
 **Perception**
-- **darknet_ros:** a ROS package developed for object detection in camera images.
-- **ur_vision:** the perception algorithm for this shoe packaging task.
+- **object_keypoint_msgs:** 不同类型物体的视觉信息传输格式.
+- **ultralytics_ros:** 包括物体位姿和关键点计算、环境约束（如桌面边缘）感知节点.
 
 **Task plannning**
-- **ur_demo:** demos about path planning using MoveIt.
-- **ur_grasping:** the task panning algorithm for this shoe packaging task.
+- **ur_smach:** 基于多原语的书桌桌面整理规划器.
+
+## 3. 项目实施
+
+首先开通相机，并运行视觉算法
+
+```
+$ cd ultralytics_ws/
+$ source devel/setup.bash
+
+# 启动相机
+$ roslaunch realsense2_camera rs_camera.launch align_depth:=true enable_pointcloud:=true
+
+# 物体的位姿和关键点获取
+$ rosrun ultralytics_ros yolo_ros_node1.py
+
+# 环境约束检测（桌面边缘）
+$ export PYTHONPATH="/home/dongyi/anaconda3/envs/yolo_ros/lib/python3.8/site-packages:$PYTHONPATH"
+$ rosrun ultralytics_ros desktop_detection_node.py
+
+```
+
+然后开启夹爪和机械臂通讯接口，发布手眼标定结果，并运行任务规划器
+
+```
+$ cd ur_ws_organize/
+$ source devel/setup.bash
+
+# 夹爪通讯
+$ roslaunch serial_msgs gripper_control.launch 
+
+# 机器人通讯
+$ roslaunch ur_robot_driver ur5e_work_all.launch
+
+# 发布手眼标定结果
+$ roslaunch easy_handeye publish.launch
+
+# 任务规划器
+$ rosrun ur_smach TaskPlanner.py
+
+# 开始运行
+$ rostopic pub /tidy_task_command std_msgs/String "start"
+
+```
+
+## 4. 参考资料
+
+1）视频：https://youtu.be/48cGp702p5k
+2）论文：ArXiv链接
+
+如何有关于项目的问题，欢迎咨询邮箱：dongyi@nuaa.edu.cn
+
