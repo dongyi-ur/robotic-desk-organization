@@ -1,101 +1,119 @@
 # robotic-desk-organization
 
-## 1. 项目简介
+## 1. Project Overview
 
-书桌桌面整理是服务机器人在真实环境中面临的一项典型挑战，主要难点在于物体种类繁多（小物件、平面刚体、可变形物体）以及操作目标多样（如收纳、堆叠）。本工作提出了一种**面向任务的书桌桌面整理框架**，通过结合环境约束（如桌沿、书本边缘）和物体间接触，实现对异构物体的鲁棒操作。
+Desktop organization is a representative and challenging task for service robots operating in real-world environments. The main difficulties arise from the diversity of objects (e.g., small items, planar rigid objects, and deformable objects) and the variety of task objectives (e.g., sorting, storing, and stacking).
 
-我们设计了三类**环境辅助的操作基元**：
+In this project, we propose a **task-oriented framework for robotic desktop organization**, which leverages environmental constraints (e.g., table edges, book boundaries) and inter-object interactions to enable robust manipulation of heterogeneous objects.
 
-- **接触式抓取**：适用于小物件和薄纸；
-- **推‑抓取策略**：利用桌沿或书本边缘抓取尺子等平面刚体；
-- **撬‑抓取策略**：适用于书本等可变形物体。
+We design three types of **environment-assisted manipulation primitives**:
 
-基于视觉感知模块（YOLO + SAM2.1 + 点云处理），并结合以上操作原语与辅助原语，定义了任务规划器。机器人系统能够在真实场景中完成从识别、抓取到规整放置的完整桌面整理流程。下图展示了整理任务的初始与目标状态示例（对应论文 Fig. 1）。具体的方法介绍可以参考论文（链接见末尾）。
+- **Contact-based grasping**: suitable for small objects and thin paper;
+- **Push-to-grasp strategy**: utilizes table edges or book boundaries to grasp planar rigid objects such as rulers;
+- **Pry-to-grasp strategy**: designed for deformable objects such as books.
 
-> ![Fig. 1: 桌面整理任务的初始状态与整理后状态](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig0.jpg)
+Based on a perception module (YOLO + SAM2.1 + point cloud processing), combined with the above manipulation primitives and auxiliary actions, we develop a task planner. The robotic system is capable of completing the full pipeline of desktop organization in real-world scenarios, including object detection, grasping, and orderly placement.
 
-> *图：桌面整理任务的初始状态（左）与整理后状态（右）*  
+The figure below illustrates an example of the initial and goal states of the organization task (corresponding to Fig. 1 in the paper). For more details, please refer to the paper (link provided at the end).
 
-> （初始场景包含笔、橡皮、铅芯盒、直尺、三角尺、纸张、书本等；整理后小物件放入笔筒，尺子放入笔筒或置于书本旁，纸张和书本堆叠整齐）
+> ![Fig. 1: Initial and goal states of the desktop organization task](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig0.jpg)
+> *Figure: Initial state (left) and organized state (right) of the desktop organization task.*  
+> *(The initial scene includes pens, erasers, lead cases, rulers, set squares, paper, books, etc. After organization, small items are placed in a pen holder, rulers are inserted into the holder or placed next to books, and paper and books are neatly stacked.)*
 
-## 2. 项目内容
+---
 
-此部分主要介绍不同功能包及其实现的功能，主要包括机器人、夹爪、相机的ROS通讯控制功能包，和手眼标定功能包，以及针对本文任务专门开发的视觉功能包和操作规划功能包。
+## 2. Repository Structure
 
-**UR robot (UR5e)**
-- **Universal_Robots_ROS_Driver:** UR robot driver meta-package.
-- **fmauch_universal_robot:** UR robot description meta-package.
+This section introduces the main functional packages included in this project. It covers ROS communication packages for the robot, gripper, and camera, as well as hand–eye calibration, perception, and task planning modules specifically developed for this work.
+
+### **UR Robot (UR5e)**
+
+- **Universal_Robots_ROS_Driver**: Meta-package for controlling the UR robot.
+- **fmauch_universal_robot**: Meta-package containing the UR robot description.
 
 Tutorial: https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
 
-**Gripper (Rochu)**
-- **serial_msgs:** 夹爪通讯功能包.
+### **Gripper (Rochu)**
 
-**Camera (Realsense D415)**
-- **realsense-ros:** a package for using Intel RealSense cameras with ROS.
-- **ddynamic_reconfigure:** a package that allows modifying parameters of a ROS node of the camera.
+- **serial_msgs**: Communication package for controlling the gripper.
+
+### **Camera (Intel RealSense D415)**
+
+- **realsense-ros**: ROS package for Intel RealSense cameras.
+- **ddynamic_reconfigure**: Allows dynamic parameter tuning for camera nodes.
 
 Tutorial: http://neutron.manoonpong.com/perception-vision-realsense-set-up-tutorial/
 
-**Eye to hand calibration**
-- **easy_handeye:** an automated, hardware-independent Hand-Eye Calibration package.
-- **aruco_ros:** a software package and ROS wrappers of the Aruco Augmented Reality marker detector library.
-- **vision_visp:** a package which provides visual servoing platform algorithms as ROS components. 
+### **Eye-to-Hand Calibration**
 
-**Perception**
-- **object_keypoint_msgs:** 不同类型物体的视觉信息传输格式.
-- **ultralytics_ros:** 包括物体位姿和关键点计算、环境约束（如桌面边缘）感知节点.
+- **easy_handeye**: Automated, hardware-independent hand–eye calibration package.
+- **aruco_ros**: ROS wrapper for ArUco marker detection.
+- **vision_visp**: Provides visual servoing algorithms as ROS components.
 
-**Task plannning**
-- **ur_smach:** 基于多原语的书桌桌面整理规划器.
+### **Perception**
 
-## 3. 项目实施
+- **object_keypoint_msgs**: Message definitions for visual information of different object types.
+- **ultralytics_ros**: Includes object pose estimation, keypoint detection, and environment constraint perception (e.g., table edges).
 
-首先开通相机，并运行视觉算法
+### **Task Planning**
 
-```
+- **ur_smach**: A multi-primitive-based task planner for desktop organization.
+
+---
+
+## 3. Usage
+
+First, start the camera and run the perception modules:
+
+```bash
 $ cd ultralytics_ws/
 $ source devel/setup.bash
 
-# 启动相机
+# Launch the camera
 $ roslaunch realsense2_camera rs_camera.launch align_depth:=true enable_pointcloud:=true
 
-# 物体的位姿和关键点获取
+# Object pose and keypoint detection
 $ rosrun ultralytics_ros yolo_ros_node1.py
 
-# 环境约束检测（桌面边缘）
+# Environment constraint detection (e.g., table edges)
 $ export PYTHONPATH="/home/dongyi/anaconda3/envs/yolo_ros/lib/python3.8/site-packages:$PYTHONPATH"
 $ rosrun ultralytics_ros desktop_detection_node.py
 
 ```
 
-然后开启夹爪和机械臂通讯接口，发布手眼标定结果，并运行任务规划器
+Then, start the gripper and robot communication interfaces, publish the hand–eye calibration results, and run the task planner:
 
-```
+```bash
 $ cd ur_ws_organize/
 $ source devel/setup.bash
 
-# 夹爪通讯
+# Gripper communication
 $ roslaunch serial_msgs gripper_control.launch 
 
-# 机器人通讯
+# Robot driver
 $ roslaunch ur_robot_driver ur5e_work_all.launch
 
-# 发布手眼标定结果
+# Publish hand–eye calibration results
 $ roslaunch easy_handeye publish.launch
 
-# 任务规划器
+# Task planner
 $ rosrun ur_smach TaskPlanner.py
 
-# 开始运行
+# Start the task
 $ rostopic pub /tidy_task_command std_msgs/String "start"
 
 ```
 
-## 4. 参考资料
+---
 
-1）视频：https://youtu.be/48cGp702p5k
-2）论文：ArXiv链接
+## 4. Resources
 
-如何有关于项目的问题，欢迎咨询邮箱：dongyi@nuaa.edu.cn
+- Video：https://youtu.be/48cGp702p5k
+- Paper：ArXiv link (to be added)
+
+## 5. Contact
+
+If you have any questions about this project, feel free to contact:
+
+📧 dongyi@nuaa.edu.cn
 
