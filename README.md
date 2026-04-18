@@ -111,9 +111,10 @@ $ rostopic pub /tidy_task_command std_msgs/String "start"
 - Video：https://youtu.be/48cGp702p5k
 - Paper：ArXiv link (to be added)
 
+---
+
 ## 5. Contact
 
 If you have any questions about this project, feel free to contact:
 
 📧 dongyi@nuaa.edu.cn
-
