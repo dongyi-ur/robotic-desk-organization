@@ -110,7 +110,7 @@ $ rostopic pub /tidy_task_command std_msgs/String "start"
 
 To systematically evaluate the proposed framework under realistic desktop organization conditions, we designed **36 distinct experimental scenarios**. These scenarios vary in the number of object categories, spatial arrangements, and inter-object relationships, covering representative clutter patterns commonly encountered in office and study environments.
 
-### 4.1 Naming Convention
+### Naming Convention
 
 Each scenario is labeled as **`Cxyz`**, where:
 
@@ -120,7 +120,7 @@ Each scenario is labeled as **`Cxyz`**, where:
 
 **Example:** `C311` denotes the first layout instance of the first combination involving three object categories.
 
-### 4.2 Object Categories
+### Object Categories
 
 The following object types are considered, consistent with Section III of the paper:
 
@@ -132,7 +132,7 @@ The following object types are considered, consistent with Section III of the pa
 
 Each scenario includes **2 to 5 categories**, with objects initialized at arbitrary poses and occasional overlaps (e.g., rulers placed on paper or books).
 
-### 4.3 Full Set of 36 Scenarios
+### Full Set of 36 Scenarios
 
 The figure below presents all 36 experimental scenarios used in the full framework evaluation (Section IV-E). Each subfigure illustrates the initial configuration of a desktop organization task. The scenarios are arranged in order of increasing complexity (from `C2xx` to `C5xx`). For each scenario, the robot is required to sort small items into a pen holder, arrange rulers neatly, and stack paper and books, following the same goal state definition as in Fig. 1.
 
@@ -142,14 +142,14 @@ The figure below presents all 36 experimental scenarios used in the full framewo
 
 ---
 
-## 4. Resources
+## 5. Resources
 
 - Video：https://youtu.be/48cGp702p5k
 - Paper：ArXiv link (to be added)
 
 ---
 
-## 5. Contact
+## 6. Contact
 
 If you have any questions about this project, feel free to contact:
 
