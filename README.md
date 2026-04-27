@@ -2,15 +2,15 @@
 
 ## 1. Project Overview
 
-Desktop organization is a representative and challenging task for service robots operating in real-world environments. The main difficulties arise from the diversity of objects (e.g., small items, planar rigid objects, and deformable objects) and the variety of task objectives (e.g., sorting, storing, and stacking).
+Desktop organization is a representative and challenging task for service robots operating in real-world environments. The main difficulties arise from the diversity of objects (e.g., small items, thin rigid objects, and deformable objects) and the variety of task objectives (e.g., sorting, storing, and stacking).
 
-In this project, we propose a **task-oriented framework for robotic desktop organization**, which leverages environmental constraints (e.g., table edges, book boundaries) and inter-object interactions to enable robust manipulation of heterogeneous objects.
+In this project, we propose a **task-oriented framework for robotic desktop organization**, which leverages environmental constraints (e.g., table edges, book edges) and inter-object interactions to enable robust manipulation of heterogeneous objects.
 
 We design three types of **environment-assisted manipulation primitives**:
 
-- **Contact-based grasping**: suitable for small objects and thin paper;
-- **Push-to-grasp strategy**: utilizes table edges or book boundaries to grasp planar rigid objects such as rulers;
-- **Pry-to-grasp strategy**: designed for deformable objects such as books.
+- **Contact grasping**: suitable for small objects and thin paper;
+- **Push grasping**: utilizes table or book edges to grasp planar rigid objects such as rulers;
+- **Pry grasping**: designed for planar deformable objects such as books.
 
 Based on a perception module (YOLO + SAM2.1 + point cloud processing), combined with the above manipulation primitives and auxiliary actions, we develop a task planner. The robotic system is capable of completing the full pipeline of desktop organization in real-world scenarios, including object detection, grasping, and orderly placement.
 
@@ -18,7 +18,7 @@ The figure below illustrates an example of the initial and goal states of the or
 
 > ![Fig. 1: Initial and goal states of the desktop organization task](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig0.jpg)
 > *Figure: Initial state (left) and organized state (right) of the desktop organization task.*  
-> *(The initial scene includes pens, erasers, lead cases, rulers, set squares, paper, books, etc. After organization, small items are placed in a pen holder, rulers are inserted into the holder or placed next to books, and paper and books are neatly stacked.)*
+> *(The initial scene includes pens, erasers, lead cases, rulers, set squares, paper, books, etc. After organization, small items are placed in a pen holder, rulers are inserted into the holder, and paper and books are neatly stacked.)*
 
 ---
 
@@ -127,7 +127,7 @@ The following object types are considered, consistent with Section III of the pa
 | Category | Included Objects |
 |----------|------------------|
 | Small objects | Pens, erasers, lead cases |
-| Planar rigid objects | Straight rulers, 30° triangular rulers, 45° triangular rulers |
+| Thin rigid objects | Straight rulers, 30° triangular rulers, 45° triangular rulers |
 | Planar deformable objects | Paper sheets (60–80 GSM), books (various thicknesses) |
 
 Each scenario includes **2 to 5 categories**, with objects initialized at arbitrary poses and occasional overlaps (e.g., rulers placed on paper or books).
