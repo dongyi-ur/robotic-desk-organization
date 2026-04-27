@@ -16,7 +16,7 @@ Based on a perception module (YOLO + SAM2.1 + point cloud processing), combined 
 
 The figure below illustrates an example of the initial and goal states of the organization task (corresponding to Fig. 1 in the paper). For more details, please refer to the paper (link provided at the end).
 
-> ![Fig. 1: Initial and goal states of the desktop organization task](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig0.jpg)
+> ![Fig. 1: Initial and goal states of the desktop organization task](https://github.com/manipulation20/robotic-desk-organization/blob/main/Fig0.jpg)
 > *Figure: Initial state (left) and organized state (right) of the desktop organization task.*  
 > *(The initial scene includes pens, erasers, lead cases, rulers, set squares, paper, books, etc. After organization, small items are placed in a pen holder, rulers are inserted into the holder, and paper and books are neatly stacked.)*
 
@@ -136,7 +136,7 @@ Each scenario includes **2 to 5 categories**, with objects initialized at arbitr
 
 The figure below presents all 36 experimental scenarios used in the full framework evaluation (Section IV-E). Each subfigure illustrates the initial configuration of a desktop organization task. The scenarios are arranged in order of increasing complexity (from `C2xx` to `C5xx`). For each scenario, the robot is required to sort small items into a pen holder, arrange rulers neatly, and stack paper and books, following the same goal state definition as in Fig. 1.
 
-![36 experimental scenarios for desktop organization](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig1.png)
+![36 experimental scenarios for desktop organization](https://github.com/manipulation20/robotic-desk-organization/blob/main/Fig1.png)
 
 *Figure: All 36 experimental scenarios evaluated in Section IV-E. Each subfigure is labeled as `Cxyz`, where `x` denotes the number of object categories (2–5), `y` the combination index, and `z` the layout instance (1–3). The scenes include various combinations of pens, erasers, lead cases, rulers (straight and triangular), paper sheets, and books. Objects may be placed directly on the table, partially overlapping, or stacked on other objects (e.g., rulers on books). These scenarios capture typical desk clutter and are used to evaluate the success rate and robustness of the proposed multi-primitive task planner.*
 
