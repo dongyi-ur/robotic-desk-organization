@@ -106,6 +106,42 @@ $ rostopic pub /tidy_task_command std_msgs/String "start"
 
 ---
 
+## 4. Experimental Scenarios
+
+To systematically evaluate the proposed framework under realistic desktop organization conditions, we designed **36 distinct experimental scenarios**. These scenarios vary in the number of object categories, spatial arrangements, and inter-object relationships, covering representative clutter patterns commonly encountered in office and study environments.
+
+### 4.1 Naming Convention
+
+Each scenario is labeled as **`Cxyz`**, where:
+
+- **`x`** = number of object categories involved (range: 2–5)  
+- **`y`** = combination index within that category count  
+- **`z`** = layout instance index (1–3)  
+
+**Example:** `C311` denotes the first layout instance of the first combination involving three object categories.
+
+### 4.2 Object Categories
+
+The following object types are considered, consistent with Section III of the paper:
+
+| Category | Included Objects |
+|----------|------------------|
+| Small objects | Pens, erasers, lead cases |
+| Planar rigid objects | Straight rulers, 30° triangular rulers, 45° triangular rulers |
+| Planar deformable objects | Paper sheets (60–80 GSM), books (various thicknesses) |
+
+Each scenario includes **2 to 5 categories**, with objects initialized at arbitrary poses and occasional overlaps (e.g., rulers placed on paper or books).
+
+### 4.3 Full Set of 36 Scenarios
+
+The figure below presents all 36 experimental scenarios used in the full framework evaluation (Section IV-E). Each subfigure illustrates the initial configuration of a desktop organization task. The scenarios are arranged in order of increasing complexity (from `C2xx` to `C5xx`). For each scenario, the robot is required to sort small items into a pen holder, arrange rulers neatly, and stack paper and books, following the same goal state definition as in Fig. 1.
+
+![36 experimental scenarios for desktop organization](https://github.com/dongyi-ur/robotic-desk-organization/blob/main/Fig1.png)
+
+*Figure: All 36 experimental scenarios evaluated in Section IV-E. Each subfigure is labeled as `Cxyz`, where `x` denotes the number of object categories (2–5), `y` the combination index, and `z` the layout instance (1–3). The scenes include various combinations of pens, erasers, lead cases, rulers (straight and triangular), paper sheets, and books. Objects may be placed directly on the table, partially overlapping, or stacked on other objects (e.g., rulers on books). These scenarios capture typical desk clutter and are used to evaluate the success rate and robustness of the proposed multi-primitive task planner.*
+
+---
+
 ## 4. Resources
 
 - Video：https://youtu.be/48cGp702p5k
